@@ -1,5 +1,6 @@
 import random
 import typing as tp
+from typing import Tuple, Any
 
 
 def is_prime(num: int) -> bool:
@@ -59,6 +60,10 @@ def multiplicative_inverse(e: int, phi: int) -> int:
         r, newr = newr, r - q * newr
     if t < 0:
         t += phi
+    if r > 1:
+        return 0
+    elif t < 0:
+        t = t + phi
     return t
 
 
@@ -73,6 +78,8 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
 
     num = p * q
     phi = (p - 1) * (q - 1)
+    n = p * q
+    phi = (p-1) * (q-1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
