@@ -103,6 +103,7 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
     # Public key is (e, n) and private key is (d, n)
     return ((e, num), (d, num))
     return ((m_e, num), (d, num))
+    return (m_e, num), (d, num)
 
 
 def encrypt(p_k: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
