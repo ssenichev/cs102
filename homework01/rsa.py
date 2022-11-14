@@ -39,7 +39,7 @@ def gcd(num_1: int, num_2: int) -> int:
 def multiplicative_inverse(e: int, phi: int) -> int:
     """
     Euclid's extended algorithm for finding the multiplicative
-    inverse of two numbers.
+    inverse of two number.
     >>> multiplicative_inverse(7, 40)
     23
     """
@@ -85,7 +85,7 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
 
     # Return public and private keypair
     # Public key is (e, n) and private key is (d, n)
-    return ((m_e, num), (d, num))
+    return (m_e, num), (d, num)
 
 
 def encrypt(p_k: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:

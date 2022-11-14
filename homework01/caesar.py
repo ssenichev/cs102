@@ -26,7 +26,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
 
 def decrypt_caesar(cipher_text: str, shift: int = 3) -> str:
     """
-    Decrypts a ciphertext using a Caesar cipher.
+    decrypts a ciphertext using a Caesar cipher.
     >>> decrypt_caesar("SBWKRQ")
     'PYTHON'
     >>> decrypt_caesar("sbwkrq")
