@@ -55,9 +55,3 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
         else:
             result += char
     return result
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
