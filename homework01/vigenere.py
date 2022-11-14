@@ -8,9 +8,17 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
     'LXFOPVEFRNHR'
     """
-    ciphertext = ""
-    # PUT YOUR CODE HERE
-    return ciphertext
+    result = ""
+    shift = [keyword[i % len(keyword)] for i in range(len(plaintext))]
+
+    for i, char in enumerate(plaintext):
+        if char.isupper():
+            result += chr((ord(char) + (ord(shift[i]) % 65) - 65) % 26 + 65)
+        elif char.islower():
+            result += chr((ord(char) + (ord(shift[i]) % 97) - 97) % 26 + 97)
+        else:
+            result += char
+    return result
 
 
 def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
@@ -23,6 +31,19 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
     'ATTACKATDAWN'
     """
-    plaintext = ""
-    # PUT YOUR CODE HERE
-    return plaintext
+    result = ""
+    shift = [keyword[i % len(keyword)] for i in range(len(ciphertext))]
+
+    for i, char in enumerate(ciphertext):
+        if char.isupper():
+            result += chr((ord(char) - (ord(shift[i]) % 65) + 65) % 26 + 65)
+        elif char.islower():
+            result += chr((ord(char) - (ord(shift[i]) % 97) + 97 - 12) % 26 + 97)
+        else:
+            result += char
+    return result
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+    # encrypt_vigenere("ATTACKATDAWN", "LEMON")
