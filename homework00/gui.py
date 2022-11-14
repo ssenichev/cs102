@@ -1,5 +1,5 @@
 import tkinter as tk
-import main
+import calculator
 
 screenExpr = ""
 
