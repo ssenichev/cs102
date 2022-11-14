@@ -43,7 +43,9 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
             result += char
     return result
 
+
 if __name__ == "__main__":
     import doctest
+
     doctest.testmod()
     # encrypt_vigenere("ATTACKATDAWN", "LEMON")

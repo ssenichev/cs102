@@ -1,5 +1,3 @@
-import unittest
-
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
@@ -14,8 +12,8 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     result = ""
 
-    for i, ch in enumerate(plaintext):
-        char = ch
+    for c in plaintext:
+        char = c
         if char.isupper():
             result += chr((ord(char) + shift - 65) % 26 + 65)
         elif char.islower():
@@ -39,9 +37,9 @@ def decrypt_caesar(cipher_text: str, shift: int = 3) -> str:
     ''
     """
 
-    decrypted = ''
-    for i, ch in enumerate(cipher_text):
-        char = ch
+    decrypted = ""
+    for c in cipher_text:
+        char = c
         if char.isupper():
             decrypted += chr((ord(char) - shift + 65) % 26 + 65)
         elif char.islower():
