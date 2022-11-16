@@ -1,187 +1,95 @@
-import math
 import typing as tp
-
-operations_order = {0: ("^y",), 1: ("/", "*"), 2: ("+", "-")}
-
-
-def convert(number: int, base: int) -> int:
-    """Перевод числа из десятичной системы в другую с основанием до 10"""
-    res = 0
-    n = 1
-    while number > 0:
-        res += (number % base) * n
-        n *= 10
-        number //= base
-    return res
+from math import cos, log, log10, sin, tan
 
 
-def check_int(number: float) -> tp.Union[None, int]:
-    """Проверка, что вещественное число преобразуется в целочисленное без потерь"""
-    if int(number) == number:
-        return int(number)
-    return None
-
-
-def check_float(number: str) -> tp.Union[None, float]:
-    """Проверка, что число вещественное"""
-    try:
-        value = float(number)
-        return value
-    except ValueError:
-        return None
-
-
-def check_input(value: str) -> float:
-    """Проверка на ввод"""
-    try:
-        return float(value)
-    except ValueError:
-        return check_input(input("Повторите попытку > "))
-
-
-def input_values(command: str) -> tuple[float, float] | tuple[float, None]:
-    """Организация ввода одного или двух значений в зависимости от команды"""
-    if command in ("+", "-", "*", "/", "#", "^y"):
-        num_1 = check_input(input("Введите число 1 > "))
-        num_2 = check_input(input("Введите число 2 > "))
-        return num_1, num_2
-    num = check_input(input("Введите число > "))
-    return num, None
-
-
-# def calc(command: str, num_1: float, num_2=0.0) -> tp.Union[float, str]:  # type: ignore
-#     """Калькулятор операций"""
-#     if command == "+":
-#         return num_1 + num_2
-#     elif command == "-":
-#         return num_1 - num_2
-#     elif command == "*":
-#         return num_1 * num_2
-#     elif command == "/":
-#         if num_2 != 0:
-#             return num_1 / num_2
-#         else:
-#             print("На 0 делить нельзя")
-#     else:
-#         print(f"Неизвестная операция: {command!r}.")
-
-
-def calc(command: str, num_1: float, num_2=0.0) -> tp.Union[float, str]:  # type: ignore
-    """Калькулятор операций"""
-    match command:
-        case "+":
-            return num_1 + num_2
-        case "-":
-            return num_1 - num_2
-        case "*":
-            return num_1 * num_2
-        case "/" if num_2 == 0:
-            return "На о делить нельзя!"
-        case "/":
-            return num_1 / num_2
-        case "#" if num_2 > 9:
-            return "Основание СС не должно превышать 9!"
-        case "#" if check_int(num_1) is None or check_int(num_2) is None:
-            return "Число или основание степени не целочисленное!"
-        case _:
-            return f"Неизвестная операция: {command!r}."
-
-
-def parse_chain(chain: str):
-    """Парсинг цепочки операторов до комбинации операторов и чисел"""
-    chain = chain.replace(" ", "")
-    chain = chain.replace("**", "^")
-    new_chain = []
-    if chain[0] == "-":
-        cur_symbol = "-"
-        chain = chain[1:]
-    else:
-        cur_symbol = ""
-    for i, symbol in enumerate(chain):
-        cur_symbol += symbol
-        try:
-            cur_symbol_f = float(cur_symbol)
-            if i == len(chain) - 1:
-                new_chain.append(cur_symbol_f)
-        except ValueError:
-            try:
-                new_chain.append(float(cur_symbol[:-1]))
-                if cur_symbol[-1] not in (set(operations_order[1]) | set(operations_order[2]) | {"^", "."}):
-                    print("Incorrect input!")
-                    return None
-                new_chain.append(cur_symbol[-1])  # type: ignore
-                cur_symbol = ""
-            except ValueError:
-                print("Incorrect input!")
-                return None
-    return new_chain
-
-
-def calc_order(order, chain: tp.List[tp.Union[str, float]]):
-    """Вычисление операций текущего порядка"""
-    for j, operator in enumerate(order):
-        if operator[0] == len(chain) - 2:
-            chain[operator[0] - 1 :] = [calc(operator[1], chain[operator[0] - 1], chain[operator[0] + 1])]
+def calc_2(num_1: float, num_2: float, command: str) -> tp.Union[float, str]:
+    """
+    mathematical operations
+    """
+    if command == "+":
+        return num_1 + num_2
+    if command == "-":
+        return num_1 - num_2
+    if command == "/":
+        return num_1 / num_2
+    if command == "*":
+        return num_1 * num_2
+    if command == "^":
+        if num_1 < 0 and num_2 < 1 and num_2 % 2 == 0:
+            return "Невозможно вычислить"
         else:
-            if j != len(order) - 1:
-                order[j + 1][0] -= (j + 1) * 2
-            chain[operator[0] - 1 : operator[0] + 2] = [
-                calc(operator[1], chain[operator[0] - 1], chain[operator[0] + 1])
-            ]
-    return chain
+            return num_1**num_2
+    else:
+        return f"Неизвестный оператор: {command!r}."
 
 
-def solve_chain_wt_brackets(chain):
+def calc_1(num_1: float, command: str) -> tp.Union[float, str]:  # type: ignore
     """
-    Вычисление цепочки операторов без скобок
-    >>> solve_chain_wt_brackets("2 ** 3 ** 2 - 4.6 * 3 + 3 - 5 / 2 * 4 + 3 ** 3")
-    70.2
+    mathematical functions
     """
+    if command == "^2":
+        return num_1**2
+    if command == "sin":
+        return sin(num_1)
+    if command == "cos":
+        return cos(num_1)
+    if command == "tan":
+        return tan(num_1)
+    if command == "ln":
+        if num_1 <= 0:
+            return "Невозможно"
+        return log(num_1)
+    if command == "lg":
+        if num_1 <= 0:
+            return "Невозможно"
+        return log10(num_1)
 
-    chain = parse_chain(chain)
-    if chain:
-        chain = ["^y" if str(elem) == "^" else elem for elem in chain]
-        order_0 = [[i, elem] for i, elem in enumerate(chain) if elem in operations_order[0]]
-        chain = calc_order(order_0, chain)
-        order_1 = [[i, elem] for i, elem in enumerate(chain) if elem in operations_order[1]]
-        chain = calc_order(order_1, chain)
-        order_2 = [[i, elem] for i, elem in enumerate(chain) if elem in operations_order[2]]
-        chain = calc_order(order_2, chain)
-        return chain[0]
-    return None
+
+# def match_case_calc(num_1: float, num_2: float, command: str) -> tp.Union[float, str]:  # type: ignore
+#     """function for math options"""
+#     match command:
+#         case "/" if num_2 != 0:
+#             return num_1 / num_2
+#         case "-":
+#             return num_1 - num_2
+#         case _:
+#             return f"Неизвестный оператор: {command!r}."
 
 
-def solve_brackets(chain):
-    """Вычисление цепочки операторов со скобками
-    >>> solve_brackets("((2 ** 3 ** 2 - (4.6 * (3 + 3) - 5) / 2 * 4) + 3 ** 3)")
-    45.8
+def numeral_system(num_1: int, num_2: int, command: str) -> tp.Union[int, str]:
     """
-    if chain.rfind("(") == 0 and chain.find(")") == len(chain) - 1:
-        return solve_chain_wt_brackets(chain[1:-1])
-
-    ob = chain.rfind("(")
-    cb = chain.find(")")
-    chain = chain[:ob] + str(round(solve_chain_wt_brackets(chain[ob + 1 : cb]), 2)) + chain[cb + 1 :]
-    return solve_brackets(chain)
-
-
-def solve_chain(chain: str) -> tp.Union[float, str]:
-    """Проверка и вычисление цепочки операторов"""
-    if chain.count("(") + chain.count(")") == 0:
-        return solve_chain_wt_brackets(chain)
-    if chain.count("(") != chain.count(")") or "()" in chain:
-        return "Невозможно выполнить!"
-    chain = "(" + chain + ")"
-    return solve_brackets(chain)
+    changing the numeral system
+    """
+    empty_str = ""
+    if num_1 < 0:
+        return "Нельзя конвертировать отрицательное число"
+    if num_2 > 9:
+        return "Выберите с. с. меньше 10"
+    if command == "convert":
+        while num_1 > 0:
+            empty_str = empty_str + str(num_1 % num_2)
+            num_1 //= num_2
+    return empty_str[::-1]
 
 
 if __name__ == "__main__":
     while True:
-        COMMAND = input("Введите оперцию > ")
-        if COMMAND.isdigit() and int(COMMAND) == 0:
-            break
-        if len(COMMAND) <= 3:
-            NUM_1, NUM_2 = input_values(COMMAND)
-            print(calc(COMMAND, NUM_1, NUM_2))
-        else:
-            print(solve_chain(COMMAND))
+        try:
+            COMMAND = input("Введите операцию > ")
+            if COMMAND.isdigit() and int(COMMAND) == 0:
+                break
+            if COMMAND in ("+", "-", "/", "*", "^"):
+                NUM_1 = float(input("Первое число > "))
+                NUM_2 = float(input("Второе число > "))
+                print(calc_2(NUM_1, NUM_2, COMMAND))
+            elif COMMAND in ("^2", "cos", "sin", "tan", "ln", "lg"):
+                NUM_1 = float(input("Введите число > "))
+                print(calc_1(NUM_1, COMMAND))
+            elif COMMAND == "convert":
+                NUM_1 = int(input("Первое число > "))
+                NUM_2 = int(input("Второе число > "))
+                print(numeral_system(NUM_1, NUM_2, COMMAND))
+            else:
+                print("Be careful! Try again")
+        except ValueError:
+            print("Ошибка! Вы ввели не число. Try again!")
