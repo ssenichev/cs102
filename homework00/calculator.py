@@ -52,9 +52,11 @@ def numeral_system(num_1: int, num_2: int, command: str) -> tp.Union[int, str]:
     empty_str = ""
     if num_1 < 0:
         return "Нельзя конвертировать отрицательное число"
-    if num_2 > 9:
-        return "Выберите с. с. меньше 10"
+    if num_2 > 9 or num_2 < 2:
+        return "Выберите с. с. больше 2 и меньше 10"
     if command == "convert":
+        if num_1 == 0:
+            return 0
         while num_1 > 0:
             empty_str = empty_str + str(num_1 % num_2)
             num_1 //= num_2
