@@ -14,9 +14,7 @@ def is_prime(num: int) -> bool:
     """
     if num == 2:
         return True
-    if num % 2 == 0:
-        return False
-    if num <= 1:
+    if num % 2 == 0 or num <= 1:
         return False
 
     start = 3
@@ -38,14 +36,9 @@ def gcd(a: int, b: int) -> int:
         return 0
     elif min(a, b) == 0:
         return max(a, b)
-    else:
-        m = min(a, b)
-        for i in range(m, 0, -1):
-            if a % i == 0 and b % i == 0:
-                return i
-                break
-        else:
-            return 1
+    while b != 0:
+        a, b = b, a % b
+    return a
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
