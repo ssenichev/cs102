@@ -45,17 +45,6 @@ def calc_1(num_1: float, command: str) -> tp.Union[float, str]:  # type: ignore
         return log10(num_1)
 
 
-# def match_case_calc(num_1: float, num_2: float, command: str) -> tp.Union[float, str]:  # type: ignore
-#     """function for math options"""
-#     match command:
-#         case "/" if num_2 != 0:
-#             return num_1 / num_2
-#         case "-":
-#             return num_1 - num_2
-#         case _:
-#             return f"Неизвестный оператор: {command!r}."
-
-
 def numeral_system(num_1: int, num_2: int, command: str) -> tp.Union[int, str]:
     """
     changing the numeral system
