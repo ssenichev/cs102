@@ -1,5 +1,5 @@
-start_lowercase = ord('a')
-start_uppercase = ord('A')
+start_lowercase = ord("a")
+start_uppercase = ord("A")
 
 
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:

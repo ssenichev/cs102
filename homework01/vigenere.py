@@ -1,5 +1,5 @@
-start_lowercase = ord('a')
-start_uppercase = ord('A')
+start_lowercase = ord("a")
+start_uppercase = ord("A")
 
 
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
