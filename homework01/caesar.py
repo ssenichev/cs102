@@ -24,7 +24,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
             result += chr((ord(char) + shift - start_lowercase) % alph_length + start_lowercase)
             result += chr((ord(char) + shift - start_uppercase) % 26 + start_uppercase)
         elif char.islower():
-            result += chr((ord(char) + shift - start_lowercase) % 26 + start_lowercase)
+            result += chr((ord(char) + shift - start_lowercase) % alph_length + start_lowercase)
         else:
             result += char
 
@@ -53,7 +53,7 @@ def decrypt_caesar(cipher_text: str, shift: int = 3) -> str:
             decrypted += chr((ord(char) - shift - start_lowercase) % alph_length + start_lowercase)
             decrypted += chr((ord(char) - shift - start_uppercase) % 26 + start_uppercase)
         elif char.islower():
-            decrypted += chr((ord(char) - shift - start_lowercase) % 26 + start_lowercase)
+            decrypted += chr((ord(char) - shift - start_lowercase) % alph_length + start_lowercase)
         else:
             decrypted += char
 
