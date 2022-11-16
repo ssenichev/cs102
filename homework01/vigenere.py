@@ -1,5 +1,6 @@
 start_lowercase = ord("a")
 start_uppercase = ord("A")
+alph_length = ord("z") - ord("a") + 1
 
 
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
@@ -17,9 +18,13 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
 
     for i, char in enumerate(plaintext):
         if char.isupper():
-            result += chr((ord(char) + (ord(shift[i]) % start_uppercase) - start_uppercase) % 26 + start_uppercase)
+            result += chr(
+                (ord(char) + (ord(shift[i]) % start_uppercase) - start_uppercase) % alph_length + start_uppercase
+            )
         elif char.islower():
-            result += chr((ord(char) + (ord(shift[i]) % start_lowercase) - start_lowercase) % 26 + start_lowercase)
+            result += chr(
+                (ord(char) + (ord(shift[i]) % start_lowercase) - start_lowercase) % alph_length + start_lowercase
+            )
         else:
             result += char
     return result
@@ -40,9 +45,13 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
 
     for i, char in enumerate(ciphertext):
         if char.isupper():
-            result += chr((ord(char) - (ord(shift[i]) % start_uppercase) - start_uppercase) % 26 + start_uppercase)
+            result += chr(
+                (ord(char) - (ord(shift[i]) % start_uppercase) - start_uppercase) % alph_length + start_uppercase
+            )
         elif char.islower():
-            result += chr((ord(char) - (ord(shift[i]) % start_lowercase) - start_lowercase) % 26 + start_lowercase)
+            result += chr(
+                (ord(char) - (ord(shift[i]) % start_lowercase) - start_lowercase) % alph_length + start_lowercase
+            )
         else:
             result += char
     return result
