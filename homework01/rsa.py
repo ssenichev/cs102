@@ -17,6 +17,8 @@ def is_prime(num: int) -> bool:
     if num % 2 == 0 or num <= 1:
     if num % 2 == 0:
         return False
+    if num <= 1:
+        return False
 
     start = 3
     while start**2 <= num and num % start != 0:
@@ -24,7 +26,7 @@ def is_prime(num: int) -> bool:
     return start**2 > num
 
 
-def gcd(num_1: int, num_2: int) -> int:
+def gcd(a: int, b: int) -> int:
     """
     Euclid's algorithm for determining the greatest common divisor.
     >>> gcd(12, 15)
@@ -52,9 +54,9 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    t_t = 0
+    t = 0
     newt = 1
-    r_r = phi
+    r = phi
     newr = e
 
     while newr != 0:
@@ -88,22 +90,20 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
     n = p * q
     phi = (p-1) * (q-1)
     # Choose an integer e such that e and phi(n) are coprime
-    m_e = random.randrange(1, phi)
+    e = random.randrange(1, phi)
 
     # Use Euclid's Algorithm to verify that e and phi(n) are coprime
-    g = gcd(m_e, phi)
+    g = gcd(e, phi)
     while g != 1:
         e = random.randrange(1, phi)
         g = gcd(e, phi)
 
     # Use Extended Euclid's Algorithm to generate the private key
-    d = multiplicative_inverse(m_e, phi)
+    d = multiplicative_inverse(e, phi)
 
     # Return public and private keypair
     # Public key is (e, n) and private key is (d, n)
     return ((e, num), (d, num))
-    return ((m_e, num), (d, num))
-    return (m_e, num), (d, num)
 
 
 def encrypt(p_k: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
