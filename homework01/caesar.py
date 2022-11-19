@@ -1,3 +1,5 @@
+import unittest
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
@@ -10,12 +12,21 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     >>> encrypt_caesar("")
     ''
     """
-    ciphertext = ""
-    # PUT YOUR CODE HERE
-    return ciphertext
+    result = ""
+
+    for i, ch in enumerate(plaintext):
+        char = ch
+        if char.isupper():
+            result += chr((ord(char) + shift - 65) % 26 + 65)
+        elif char.islower():
+            result += chr((ord(char) + shift - 97) % 26 + 97)
+        else:
+            result += char
+
+    return result
 
 
-def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
+def decrypt_caesar(cipher_text: str, shift: int = 3) -> str:
     """
     Decrypts a ciphertext using a Caesar cipher.
     >>> decrypt_caesar("SBWKRQ")
@@ -27,6 +38,15 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     >>> decrypt_caesar("")
     ''
     """
-    plaintext = ""
-    # PUT YOUR CODE HERE
-    return plaintext
+
+    decrypted = ''
+    for i, ch in enumerate(cipher_text):
+        char = ch
+        if char.isupper():
+            decrypted += chr((ord(char) - shift + 65) % 26 + 65)
+        elif char.islower():
+            decrypted += chr((ord(char) - shift + 97 - 12) % 26 + 97)
+        else:
+            decrypted += char
+
+    return decrypted
