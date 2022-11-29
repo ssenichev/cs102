@@ -15,7 +15,6 @@ def is_prime(num: int) -> bool:
     if num == 2:
         return True
     if num % 2 == 0 or num <= 1:
-    if num % 2 == 0:
         return False
     if num <= 1:
         return False
@@ -67,12 +66,12 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     if t < 0:
         t += phi
     if r > 1:
-        q = r_r // newr
-        t_t, newt = newt, t_t - q * newt
-        r_r, newr = newr, r_r - q * newr
-    if r_r > 1:
+        q = r // newr
+        t_t, newt = newt, t - q * newt
+        r_r, newr = newr, r - q * newr
+    if r > 1:
         return 0
-    if t_t < 0:
+    if t < 0:
         t_t = t_t + phi
     return t_t
 
