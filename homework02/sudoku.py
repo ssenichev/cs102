@@ -14,7 +14,7 @@ def run_solve(filename: str) -> None:
     start = time.time()
     solve(grid)
     end = time.time()
-    print(f"{filename}: {end-start}")
+    print(f"{filename}: {end - start}")
 
 
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
@@ -113,7 +113,7 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     for i in range(len(grid[0])):
         if i // block_size == block_row:
             row = grid[i]
-            row = row[block_size * block_col : block_size * block_col + block_size]
+            row = row[block_size * block_col: block_size * block_col + block_size]
             answer += row
 
     return answer
@@ -148,7 +148,6 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    from itertools import groupby
 
     col_values = get_col(grid, pos)
     row_values = get_row(grid, pos)
