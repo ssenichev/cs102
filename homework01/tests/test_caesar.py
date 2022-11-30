@@ -3,8 +3,6 @@ import string
 import unittest
 import caesar
 
-import caesar
-
 
 class CaesarTestCase(unittest.TestCase):
     def test_encrypt(self):
