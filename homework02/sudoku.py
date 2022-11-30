@@ -3,7 +3,7 @@ import pathlib
 import threading
 import time
 import typing as tp
-from random import choice, randint
+from random import choice, randint, sample, shuffle
 from typing import Any, List, Tuple
 
 T = tp.TypeVar("T")
@@ -208,20 +208,20 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """
     initial: list = [["." for j in range(9)] for i in range(9)]
     sudoku: Any = solve(initial)
-    removed: list = []
-
-    while len(removed) < len(sudoku) ** 2 - N:
-        row = randint(0, 8)
-        col = randint(0, 8)
-        pos = (row, col)
-        if pos not in removed:
-            sudoku[row][col] = "."
-            removed.append(pos)
-
-    return sudoku
+    # removed: list = []
+    #
+    # while len(removed) < len(sudoku) ** 2 - N:
+    #     row = randint(0, 8)
+    #     col = randint(0, 8)
+    #     pos = (row, col)
+    #     if pos not in removed:
+    #         sudoku[row][col] = "."
+    #         removed.append(pos)
+    # return sudoku
+    mask = list(" " * N + "." * (81 - N))
+    shuffle(mask)
+    return [[sudoku[i][j] if mask[i * 9 + j] != "." else "." for j in range(9)] for i in range(9)]
 
 
 if __name__ == "__main__":
-    grid = read_sudoku("puzzle1.txt")
-    solution = solve(grid)
-    print(display(solution))
+    pass
