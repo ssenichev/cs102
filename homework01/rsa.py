@@ -46,7 +46,6 @@ def gcd(a: int, b: int) -> int:
     return num_1
 
 
-
 def multiplicative_inverse(e: int, phi: int) -> int:
     """
     Euclid's extended algorithm for finding the multiplicative
@@ -88,7 +87,7 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
     num = p * q
     phi = (p - 1) * (q - 1)
     n = p * q
-    phi = (p-1) * (q-1)
+    phi = (p - 1) * (q - 1)
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
 

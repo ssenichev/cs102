@@ -2,6 +2,7 @@ start_lowercase = ord("a")
 start_uppercase = ord("A")
 alph_length = ord("z") - ord("a") + 1
 
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
