@@ -50,9 +50,8 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    answer = [[x for x in values[i * n : i * n + n]] for i in range(n)]
 
-    return answer
+    return [[x for x in values[i * n : i * n + n]] for i in range(n)]
 
 
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -64,9 +63,7 @@ def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_row([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (2, 0))
     ['.', '8', '9']
     """
-    row = grid[pos[0]]
-
-    return row
+    return grid[pos[0]]
 
 
 def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -93,9 +90,8 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     """
     corner = (pos[0] // 3 * 3, pos[1] // 3 * 3)
     list_of_lists = [grid[i + corner[0]][corner[1] : corner[1] + 3] for i in range(0, 3)]
-    answer = [item for sublist in list_of_lists for item in sublist]
 
-    return answer
+    return [item for sublist in list_of_lists for item in sublist]
 
 
 def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
@@ -227,4 +223,5 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
 
 if __name__ == "__main__":
     grid = read_sudoku("puzzle1.txt")
-    print(get_block(grid, (4, 7)))
+    solution = solve(grid)
+    print(display(solution))
