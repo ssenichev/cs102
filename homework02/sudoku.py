@@ -4,7 +4,7 @@ import threading
 import time
 import typing as tp
 from random import choice, randint
-from typing import List, Tuple, Any
+from typing import Any, List, Tuple
 
 T = tp.TypeVar("T")
 
