@@ -1,4 +1,7 @@
-import unittest
+start_lowercase = ord("a")
+start_uppercase = ord("A")
+alph_length = ord("z") - ord("a") + 1
+
 
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
@@ -13,13 +16,12 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     result = ""
-
-    for i, ch in enumerate(plaintext):
-        char = ch
+    for c in plaintext:
+        char = c
         if char.isupper():
-            result += chr((ord(char) + shift - 65) % 26 + 65)
+            result += chr((ord(char) + shift - start_uppercase) % alph_length + start_uppercase)
         elif char.islower():
-            result += chr((ord(char) + shift - 97) % 26 + 97)
+            result += chr((ord(char) + shift - start_lowercase) % alph_length + start_lowercase)
         else:
             result += char
 
@@ -28,7 +30,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
 
 def decrypt_caesar(cipher_text: str, shift: int = 3) -> str:
     """
-    Decrypts a ciphertext using a Caesar cipher.
+    decrypts a ciphertext using a Caesar cipher.
     >>> decrypt_caesar("SBWKRQ")
     'PYTHON'
     >>> decrypt_caesar("sbwkrq")
@@ -38,14 +40,13 @@ def decrypt_caesar(cipher_text: str, shift: int = 3) -> str:
     >>> decrypt_caesar("")
     ''
     """
-
-    decrypted = ''
-    for i, ch in enumerate(cipher_text):
-        char = ch
+    decrypted = ""
+    for c in cipher_text:
+        char = c
         if char.isupper():
-            decrypted += chr((ord(char) - shift + 65) % 26 + 65)
+            decrypted += chr((ord(char) - shift - start_uppercase) % alph_length + start_uppercase)
         elif char.islower():
-            decrypted += chr((ord(char) - shift + 97 - 12) % 26 + 97)
+            decrypted += chr((ord(char) - shift - start_lowercase) % alph_length + start_lowercase)
         else:
             decrypted += char
 
