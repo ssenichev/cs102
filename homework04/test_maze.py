@@ -1,8 +1,6 @@
 import unittest
 from random import seed
 
-import pandas as pd
-
 import maze
 
 
