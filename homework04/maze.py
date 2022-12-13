@@ -194,28 +194,6 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
     else:
         return True
 
-    # try:
-    #     if grid[coord[0] + 1][coord[1] + 1] == " ":
-    #         return True
-    # except IndexError:
-    #     pass
-    # try:
-    #     if grid[coord[0] - 1][coord[1] + 1] == " ":
-    #         return True
-    # except IndexError:
-    #     pass
-    # try:
-    #     if grid[coord[0] - 1][coord[1] - 1] == " ":
-    #         return True
-    # except IndexError:
-    #     pass
-    # try:
-    #     if grid[coord[0] + 1][coord[1] - 1] == " ":
-    #         return True
-    # except IndexError:
-    #     pass
-    # return False
-
 
 def solve_maze(
     grid: List[List[Union[str, int]]],
