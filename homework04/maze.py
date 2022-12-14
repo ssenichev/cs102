@@ -20,12 +20,10 @@ def remove_wall(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> Li
     y, x = coord
     direction = choice([0, 1])  # 0 is up, 1 is right
     if direction == 0:
-        if y == 1:
+        if y == 1 and x != len(grid) - 2:
             grid[y][x + 1] = " "
-
-            if grid[1][len(grid) - 1] != "■":
-                grid[1][len(grid) - 1] = "■"
-
+        elif y == 1 and x == len(grid) - 2:  #  случай, если мы попадаем в угол
+            pass
         else:
             grid[y - 1][x] = " "
     else:
@@ -86,9 +84,9 @@ def get_exits(grid: List[List[Union[str, int]]]) -> List[Tuple[int, int]]:
     """
     exits: Any = []
 
-    for x, _ in enumerate(grid):
-        for y, _ in enumerate(grid):
-            if grid[x][y] == "X":
+    for x, row in enumerate(grid):
+        for y, elem in enumerate(row):
+            if elem == "X":
                 exits.append((x, y))
 
     return exits
@@ -165,8 +163,8 @@ def shortest_path(
         x = array[-1][0]
         y = array[-1][1]
         grid[x][y] = " "
-        q, w = array[-2][0], array[-2][1]
-        shortest_path(grid, (q, w))
+        x2, y2 = array[-2][0], array[-2][1]
+        shortest_path(grid, (x2, y2))
 
     return array
 
