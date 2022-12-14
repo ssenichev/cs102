@@ -234,8 +234,17 @@ def add_path_to_grid(
             for j, _ in enumerate(row):
                 if (i, j) in path:
                     grid[i][j] = "X"
+
+                if str(grid[i][j]).isdigit():
+                    grid[i][j] = " "
+
     return grid
 
 
 if __name__ == "__main__":
-    pass
+    GRID = bin_tree_maze(15, 15)
+    EMPTY_GRID = deepcopy(GRID)
+    print(pd.DataFrame(GRID))
+    _, PATH = solve_maze(GRID)
+    MAZE = add_path_to_grid(EMPTY_GRID, PATH)
+    print(pd.DataFrame(MAZE))

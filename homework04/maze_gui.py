@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 from typing import List
 
+import pandas as pd
+
 from maze import add_path_to_grid, bin_tree_maze, solve_maze
 
 
@@ -28,6 +30,7 @@ def draw_maze(grid: List[List[str]], size: int = 10):
 def show_solution():
     maze, path = solve_maze(GRID)
     maze = add_path_to_grid(GRID, path)
+
     if path:
         draw_maze(maze, CELL_SIZE)
     else:
@@ -36,9 +39,9 @@ def show_solution():
 
 if __name__ == "__main__":
     global GRID, CELL_SIZE
-    N, M = 51, 77
+    N, M = 25, 25
 
-    CELL_SIZE = 10
+    CELL_SIZE = 25
     GRID = bin_tree_maze(N, M)
 
     window = tk.Tk()
@@ -48,7 +51,7 @@ if __name__ == "__main__":
     canvas = tk.Canvas(window, width=M * CELL_SIZE, height=N * CELL_SIZE)
     canvas.pack()
 
-    draw_maze(GRID, CELL_SIZE)  # type: ignore
+    draw_maze(GRID, CELL_SIZE)
     ttk.Button(window, text="Solve", command=show_solution).pack(pady=20)
 
     window.mainloop()
