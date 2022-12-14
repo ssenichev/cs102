@@ -22,6 +22,10 @@ def remove_wall(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> Li
     if direction == 0:
         if y == 1:
             grid[y][x + 1] = " "
+
+            if grid[1][len(grid) - 1] != "■":
+                grid[1][len(grid) - 1] = "■"
+
         else:
             grid[y - 1][x] = " "
     else:
@@ -52,9 +56,6 @@ def bin_tree_maze(rows: int = 15, cols: int = 15, random_exit: bool = True) -> L
 
     for elem in empty_cells:
         remove_wall(grid, elem)
-
-    if grid[1][len(grid) - 1] != "■":
-        grid[1][len(grid) - 1] = "■"
 
     # 1. выбрать любую клетку
     # 2. выбрать направление: наверх или направо.
@@ -87,7 +88,7 @@ def get_exits(grid: List[List[Union[str, int]]]) -> List[Tuple[int, int]]:
 
     for x, _ in enumerate(grid):
         for y, _ in enumerate(grid):
-            if grid[x][y] == "X" and len(exits) != 2:
+            if grid[x][y] == "X":
                 exits.append((x, y))
 
     return exits
@@ -100,31 +101,27 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
     :param k:
     :return:
     """
-    cells = []
-
-    for i in range(0, len(grid)):
-        for j in range(0, len(grid)):
+    for i in range(len(grid)):
+        for j in range(len(grid)):
             if grid[i][j] == k:
-                cells.append([i, j])
 
-    for q in range(len(cells)):
-        x, y = cells[q][0], cells[q][1]
-        if y != 0 and grid[x][y - 1] == " ":
-            grid[x][y - 1] = k + 1
-        elif y != 0 and grid[x][y - 1] == 0:
-            grid[x][y - 1] = k + 1
-        if x != 0 and grid[x - 1][y] == " ":
-            grid[x - 1][y] = k + 1
-        elif x != 0 and grid[x - 1][y] == 0:
-            grid[x - 1][y] = k + 1
-        if y != len(grid) - 1 and grid[x][y + 1] == " ":
-            grid[x][y + 1] = k + 1
-        elif y != len(grid) - 1 and grid[x][y + 1] == 0:
-            grid[x][y + 1] = k + 1
-        if x != len(grid) - 1 and grid[x + 1][y] == " ":
-            grid[x + 1][y] = k + 1
-        elif x != len(grid) - 1 and grid[x + 1][y] == 0:
-            grid[x + 1][y] = k + 1
+                if j != 0 and grid[i][j - 1] == " ":
+                    grid[i][j - 1] = k + 1
+                elif j != 0 and grid[i][j - 1] == 0:
+                    grid[i][j - 1] = k + 1
+                if i != 0 and grid[i - 1][j] == " ":
+                    grid[i - 1][j] = k + 1
+                elif i != 0 and grid[i - 1][j] == 0:
+                    grid[i - 1][j] = k + 1
+                if j != len(grid) - 1 and grid[i][j + 1] == " ":
+                    grid[i][j + 1] = k + 1
+                elif j != len(grid) - 1 and grid[i][j + 1] == 0:
+                    grid[i][j + 1] = k + 1
+                if i != len(grid) - 1 and grid[i + 1][j] == " ":
+                    grid[i + 1][j] = k + 1
+                elif i != len(grid) - 1 and grid[i + 1][j] == 0:
+                    grid[i + 1][j] = k + 1
+
     return grid
 
 
@@ -137,30 +134,30 @@ def shortest_path(
     :param exit_coord:
     :return:
     """
-    a, b = exit_coord
-    ex = grid[a][b]
-    k = int(grid[a][b]) - 1
+    x, y = exit_coord
+    ex = grid[x][y]
+    k = int(grid[x][y]) - 1
     array = []
-    current = a, b
+    current = x, y
     array.append(current)
 
     while k != 0:
-        if a + 1 < len(grid):
-            if grid[a + 1][b] == k:
-                current = a + 1, b
-                a += 1
-        if a - 1 >= 0:
-            if grid[a - 1][b] == k:
-                current = a - 1, b
-                a -= 1
-        if b + 1 < len(grid):
-            if grid[a][b + 1] == k:
-                current = a, b + 1
-                b += 1
-        if b - 1 >= 0:
-            if grid[a][b - 1] == k:
-                current = a, b - 1
-                b -= 1
+        if x + 1 < len(grid):
+            if grid[x + 1][y] == k:
+                current = x + 1, y
+                x += 1
+        if x - 1 >= 0:
+            if grid[x - 1][y] == k:
+                current = x - 1, y
+                x -= 1
+        if y + 1 < len(grid):
+            if grid[x][y + 1] == k:
+                current = x, y + 1
+                y += 1
+        if y - 1 >= 0:
+            if grid[x][y - 1] == k:
+                current = x, y - 1
+                y -= 1
         array.append(current)
         k -= 1
 
@@ -181,18 +178,18 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
     :param coord:
     :return:
     """
-    h, v = coord
+    height, vertical = coord
 
-    if v == 0 and grid[h][v + 1] == " ":
-        return False
-    elif v == (len(grid) - 1) and grid[h][v - 1] == " ":
-        return False
-    elif h == 0 and grid[h + 1][v] == " ":
-        return False
-    elif h == (len(grid) - 1) and grid[h - 1][v] == " ":
-        return False
-    else:
-        return True
+    return not (
+        vertical == 0
+        and grid[height][vertical + 1] == " "
+        or vertical == (len(grid) - 1)
+        and grid[height][vertical - 1] == " "
+        or height == 0
+        and grid[height + 1][vertical] == " "
+        or height == (len(grid) - 1)
+        and grid[height - 1][vertical] == " "
+    )
 
 
 def solve_maze(
@@ -208,20 +205,18 @@ def solve_maze(
     if len(exits) != 2:
         return grid, None
 
-    x, y = exits[0]
-    a, b = exits[1]
+    x1, y1 = exits[0]
+    x2, y2 = exits[1]
 
-    if encircled_exit(grid, (x, y)):
-        return grid, None
-    if encircled_exit(grid, (a, b)):
+    if encircled_exit(grid, (x1, y1)) or encircled_exit(grid, (x2, y2)):
         return grid, None
 
     k = 1
-    grid[x][y], grid[a][b] = 1, 0
-    while grid[a][b] == 0:
+    grid[x1][y1], grid[x2][y2] = 1, 0
+    while grid[x2][y2] == 0:
         make_step(grid, k)
         k += 1
-    way = shortest_path(grid, (a, b))
+    way = shortest_path(grid, (x2, y2))
 
     return grid, way
 
@@ -246,9 +241,3 @@ def add_path_to_grid(
 
 if __name__ == "__main__":
     pass
-    # print(pd.DataFrame(bin_tree_maze(15, 15)))
-    # GRID = bin_tree_maze(15, 15)
-    # print(pd.DataFrame(GRID))
-    # _, PATH = solve_maze(GRID)
-    # MAZE = add_path_to_grid(GRID, PATH)
-    # print(pd.DataFrame(MAZE))
