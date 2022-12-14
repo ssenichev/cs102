@@ -199,24 +199,28 @@ def solve_maze(
     :return:
     """
     exits = get_exits(grid)
+    x1, y1 = exits[0]
+    x2, y2 = exits[1]
+    k = 1
 
     if len(exits) != 2:
         return grid, None
 
-    x1, y1 = exits[0]
-    x2, y2 = exits[1]
-
     if encircled_exit(grid, (x1, y1)) or encircled_exit(grid, (x2, y2)):
         return grid, None
 
-    k = 1
     grid[x1][y1], grid[x2][y2] = 1, 0
+
+    for r in range(len(grid)):
+        for c in range(len(grid[0])):
+            if grid[r][c] == " ":
+                grid[r][c] = 0
+
     while grid[x2][y2] == 0:
         make_step(grid, k)
         k += 1
-    way = shortest_path(grid, (x2, y2))
 
-    return grid, way
+    return grid, shortest_path(grid, (x2, y2))
 
 
 def add_path_to_grid(
@@ -228,15 +232,11 @@ def add_path_to_grid(
     :param path:
     :return:
     """
-
     if path:
         for i, row in enumerate(grid):
             for j, _ in enumerate(row):
                 if (i, j) in path:
                     grid[i][j] = "X"
-
-                if str(grid[i][j]).isdigit():
-                    grid[i][j] = " "
 
     return grid
 
@@ -244,7 +244,6 @@ def add_path_to_grid(
 if __name__ == "__main__":
     GRID = bin_tree_maze(15, 15)
     EMPTY_GRID = deepcopy(GRID)
-    print(pd.DataFrame(GRID))
     _, PATH = solve_maze(GRID)
     MAZE = add_path_to_grid(EMPTY_GRID, PATH)
-    print(pd.DataFrame(MAZE))
+    # print(pd.DataFrame(MAZE))
