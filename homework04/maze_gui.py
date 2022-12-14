@@ -2,8 +2,6 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 from typing import List
 
-import pandas as pd
-
 from maze import add_path_to_grid, bin_tree_maze, solve_maze
 
 
