@@ -27,8 +27,10 @@ def remove_wall(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> Li
         else:
             grid[y - 1][x] = " "
     else:
-        if x == len(grid) - 2:
+        if x == len(grid) - 2 and y != 1:
             grid[y - 1][x] = " "
+        elif x == len(grid) - 2:
+            pass
         else:
             grid[y][x + 1] = " "
 
@@ -166,6 +168,7 @@ def shortest_path(
         x2, y2 = array[-2][0], array[-2][1]
         shortest_path(grid, (x2, y2))
 
+    print(array)
     return array
 
 
@@ -201,7 +204,7 @@ def solve_maze(
     exits = get_exits(grid)
     x1, y1 = exits[0]
     x2, y2 = exits[1]
-    k = 1
+    k = 0
 
     if len(exits) != 2:
         return grid, None
@@ -211,14 +214,15 @@ def solve_maze(
 
     grid[x1][y1], grid[x2][y2] = 1, 0
 
+    grid = deepcopy(grid)
     for r in range(len(grid)):
         for c in range(len(grid[0])):
             if grid[r][c] == " ":
                 grid[r][c] = 0
 
     while grid[x2][y2] == 0:
-        make_step(grid, k)
         k += 1
+        make_step(grid, k)
 
     return grid, shortest_path(grid, (x2, y2))
 
@@ -232,11 +236,13 @@ def add_path_to_grid(
     :param path:
     :return:
     """
+    print(pd.DataFrame(grid))
     if path:
         for i, row in enumerate(grid):
             for j, _ in enumerate(row):
                 if (i, j) in path:
                     grid[i][j] = "X"
+
 
     return grid
 
