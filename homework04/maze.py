@@ -243,7 +243,6 @@ def add_path_to_grid(
                 if (i, j) in path:
                     grid[i][j] = "X"
 
-
     return grid
 
 
@@ -252,4 +251,4 @@ if __name__ == "__main__":
     EMPTY_GRID = deepcopy(GRID)
     _, PATH = solve_maze(GRID)
     MAZE = add_path_to_grid(EMPTY_GRID, PATH)
-    # print(pd.DataFrame(MAZE))
+    print(pd.DataFrame(MAZE))
